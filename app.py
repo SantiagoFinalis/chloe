@@ -9,11 +9,11 @@ app = Flask(__name__)
 @app.route('/validate', methods=['POST'])
 def validate_input():
     app.logger.debug("Received validation request")
-    if not request.is_json:
-        return redirect(url_for('thank_you', valid="false"))
 
-    data = request.get_json()
-    user_input = data.get('crd')  # Fetch data using the unique name 'crd'
+    # Determine if the request is JSON
+    is_json = request.headers.get('Content-Type') == 'application/json'
+    data = request.get_json() if is_json else request.form
+    user_input = data.get('crd')  # Adjust 'crd' based on JotForm field name
     app.logger.debug(f"User input from crd: {user_input}")
 
     if not user_input:
@@ -42,9 +42,11 @@ def thank_you():
     validation_result = request.args.get('valid', default="false", type=str)
     
     if validation_result == "true":
-        return render_template('valid_crd.html')  # Assuming you have a template for valid CRD
+        # Provide the path to your valid CRD template
+        return render_template('valid_crd.html')
     else:
-        return render_template('invalid_crd.html')  # Assuming you have a template for invalid CRD
+        # Provide the path to your invalid CRD template
+        return render_template('invalid_crd.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
