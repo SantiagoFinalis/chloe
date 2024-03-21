@@ -10,15 +10,14 @@ app = Flask(__name__)
 def validate_input():
     app.logger.debug("Received validation request")
     if not request.is_json:
-        return redirect(url_for('thank_you', valid="false", message='Request must be in JSON format'))
+        return redirect(url_for('thank_you', valid="false"))
 
     data = request.get_json()
-    # Fetch data using the unique name 'crd'
-    user_input = data.get('crd')
+    user_input = data.get('crd')  # Fetch data using the unique name 'crd'
     app.logger.debug(f"User input from crd: {user_input}")
 
     if not user_input:
-        return redirect(url_for('thank_you', valid="false", message='No user input provided for crd'))
+        return redirect(url_for('thank_you', valid="false"))
 
     url_to_check = f"https://brokercheck.finra.org/individual/summary/{user_input}"
     app.logger.debug(f"URL to check: {url_to_check}")
@@ -32,22 +31,20 @@ def validate_input():
         time.sleep(3)  # Allow time for any redirects and full page load
         final_url = driver.current_url
         app.logger.debug(f"Final URL after 3 seconds: {final_url}")
-        
+
         if final_url == 'https://brokercheck.finra.org/':
-            return redirect(url_for('thank_you', valid="false", message='Invalid input for crd, please try again.'))
+            return redirect(url_for('thank_you', valid="false"))
         else:
-            return redirect(url_for('thank_you', valid="true", message='The input for crd is valid.'))
+            return redirect(url_for('thank_you', valid="true"))
 
 @app.route('/thank_you')
 def thank_you():
     validation_result = request.args.get('valid', default="false", type=str)
-    message = request.args.get('message', default="There was a problem with your submission.", type=str)
     
     if validation_result == "true":
-        return render_template('thank_you.html', message=message)
+        return render_template('valid_crd.html')  # Assuming you have a template for valid CRD
     else:
-        # This is where you would redirect back to the form with an error message, but for now, we just render a page
-        return render_template('thank_you.html', message=message)
+        return render_template('invalid_crd.html')  # Assuming you have a template for invalid CRD
 
 if __name__ == '__main__':
     app.run(debug=True)
