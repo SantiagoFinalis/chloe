@@ -13,7 +13,7 @@ def validate_input():
 
     is_json = request.headers.get('Content-Type') == 'application/json'
     data = request.get_json() if is_json else request.form
-    crd_number = data.get('CRD #')
+    crd_number = data.get('crd')
 
     if not crd_number:
         return redirect(url_for('thank_you', valid="false"))
