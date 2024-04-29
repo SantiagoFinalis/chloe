@@ -4,7 +4,6 @@ from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 import time
 import requests
-import urllib.parse
 
 app = Flask(__name__)
 
@@ -38,6 +37,7 @@ def validate_input():
                 valid_crd = True
     except Exception as e:
         app.logger.error(f"Error checking CRD: {str(e)}")
+        return redirect(url_for('thank_you', valid="false"))  # Redirect immediately if Selenium encounters an error
 
     if valid_crd:
         pardot_url = "http://go.finalis.com/l/1065672/2024-04-23/dc5mq4"
@@ -55,7 +55,7 @@ def validate_input():
             'other_info': data.get('other')
         }
 
-        # Send a POST request to Pardot
+        # Send a POST request to Pardot only if CRD is valid
         response = requests.post(pardot_url, data=payload)
         app.logger.debug(f"Pardot post response: {response.status_code}")
 
