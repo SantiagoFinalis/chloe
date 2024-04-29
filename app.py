@@ -42,16 +42,16 @@ def validate_input():
     if valid_crd:
         pardot_url = "http://go.finalis.com/l/1065672/2024-04-23/dc5mq4"
         payload = {
-            'first_name': data.get('name'),
-            'email': data.get('email'),
-            'phone': data.get('phoneNumber'),
-            'linkedin_url': data.get('linkedinUrl'),
-            'country': data.get('typeA'),
-            'state': data.get('typeA14'),
-            'finra_crd': crd_number,
-            'business_description': data.get('briefDescription'),
-            'referral_source': data.get('how_did_you_hear_about_us'),
-            'other_info': data.get('other')
+            'Email': data.get('email'),
+            'Phone': data.get('phone_number'),
+            'LinkedIn_Profile_URL': data.get('linkedin_url'),
+            'Country': data.get('country_of_residence'),
+            'State': data.get('state'),
+            'Do_you_have_a_FINRA_CRD': 'Yes' if crd_number else 'No',
+            'CRD': crd_number,
+            'Brief_description_of_your_business': data.get('business_description'),
+            'How_did_you_hear_about_Finalis': data.get('how_did_you_hear_about_us'),
+            'Other': data.get('other')
         }
 
         # Send a POST request to Pardot only if CRD is valid
