@@ -7,7 +7,7 @@ import requests
 
 app = Flask(__name__)
 
-app.route('/validate', methods=['POST'])
+@app.route('/validate', methods=['POST'])
 def validate_input():
     app.logger.debug("Received validation request")
 
@@ -39,7 +39,7 @@ def validate_input():
         app.logger.error(f"Error checking CRD: {str(e)}")
         return redirect(url_for('thank_you', valid="false"))  # Redirect immediately if Selenium encounters an error
 
-    if valid_crd:
+ if valid_crd:
         pardot_url = "http://go.finalis.com/l/1065672/2024-04-23/dc5mq4"
         payload = {
             'first_name': data.get('first_name'),
