@@ -39,21 +39,20 @@ def validate_input():
         app.logger.error(f"Error checking CRD: {str(e)}")
         return redirect(url_for('thank_you', valid="false"))  # Redirect immediately if Selenium encounters an error
 
- if valid_crd:
+    if valid_crd:
         pardot_url = "http://go.finalis.com/l/1065672/2024-04-23/dc5mq4"
         payload = {
             'first_name': data.get('first_name'),
             'last_name': data.get('last_name'),
             'email': data.get('email'),
-            'phoneNumber': data.get('phone_number'),
+            'phone': data.get('phone_number'),
             'linkedin_url': data.get('linkedin_url'),
-            'typeA': data.get('country_of_residence'),
-            'typeA14': data.get('state'),
-            'do_you_have_a_finra_crd': 'yes',  # Assume yes since a valid CRD number exists
-            'crd': crd_number,
-            'briefDescription': data.get('business_description'),
-            'howDid': data.get('how_did_you_hear_about_us'),
-            'other': data.get('other')
+            'country': data.get('country_of_residence'),
+            'state': data.get('state'),
+            'finra_crd': crd_number,
+            'business_description': data.get('business_description'),
+            'referral_source': data.get('how_did_you_hear_about_us'),
+            'other_info': data.get('other')
         }
 
         # Send a POST request to Pardot only if CRD is valid
