@@ -43,14 +43,14 @@ def validate_input():
         pardot_url = "http://go.finalis.com/l/1065672/2024-04-23/dc5mq4"
         payload = {
             'email': data.get('email'),
-            'phoneNumber': data.get('phone_number'),
+            'phone_number': data.get('phone_number'),
             'linkedin_url': data.get('linkedin_url'),
-            'typeA': data.get('country_of_residence'),
-            'typeA14': data.get('state'),
+            'country_of_residence': data.get('country_of_residence'),
+            'state': data.get('state'),
             'do_you_have_a_finra_crd': 'yes',  # Assuming presence of CRD number means 'yes'
             'crd': crd_number,
-            'briefDescription': data.get('business_description'),
-            'howDid': data.get('how_did_you_hear_about_us'),
+            'business_description': data.get('business_description'),
+            'how_did_you_hear_about_us': data.get('how_did_you_hear_about_us'),
             'other': data.get('other')
         }
 
